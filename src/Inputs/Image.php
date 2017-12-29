@@ -33,13 +33,18 @@ class Image extends Input
 
     public function render()
     {
-        $value = get_option($this->name, '');
+        $value = get_option($this->name, get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png');
         $html  = <<<EOF
-<div class="form-group {$this->name}">
-    <label>{$this->label}</label>
-    <input type="text" name="{$this->name}" value="{$value}">
-    <button class="msc-upload-btn button btn btn-pirmary">Choose Image</button>
+<div class="card" id="nto-image-{$this->name}" style="width: 20rem;">
+    <input type="hidden" name="{$this->name}" value="{$value}" required>
+    <img class="card-img-top" src="{$value}" alt="{$this->name}">
+    <div class="card-body">
+        <h4 class="card-title">{$this->label}</h4>
+        <p class="card-text">{$this->description}</p>
+        <a href="#" class="nto-image-upload-btn btn btn-primary" data-input="{$this->name}">Select File</a>
+    </div>
 </div>
+
 EOF;
         return $html;
     }

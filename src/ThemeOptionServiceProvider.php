@@ -36,9 +36,16 @@ class ThemeOptionServiceProvider extends ServiceProvider
                     'type'  => Input::EMAIL,
                 ],
                 [
-                    'label' => 'Image',
-                    'name'  => 'theme_option_image',
-                    'type'  => Input::IMAGE,
+                    'label'       => 'Image',
+                    'name'        => 'theme_option_image',
+                    'type'        => Input::IMAGE,
+                    'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+                ],
+                 [
+                    'label'       => '2nd Image',
+                    'name'        => 'theme_option_image_2nd',
+                    'type'        => Input::IMAGE,
+                    'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
                 ],
                 [
                     'label'   => 'Select',
