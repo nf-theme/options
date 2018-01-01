@@ -33,7 +33,7 @@ ThemeOptionManager::add([
     'fields' => [
         [
             'label'    => 'Text',
-            'name'     => 'theme_option_text',
+            'name'     => 'theme_option_text', // the key of option 
             'type'     => Input::TEXT,
             'required' => true,
         ],
@@ -79,5 +79,16 @@ ThemeOptionManager::add([
         ],
     ],
 ]);
+
+```
+
+##### Step 4: Get your option value
+
+we can get the value of option as usually via `get_option` function
+
+> {tip} for gallery value is a decoded string
+
+```php
+get_option('{option_name}');
 
 ```
