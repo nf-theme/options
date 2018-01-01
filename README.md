@@ -17,7 +17,9 @@ Open `config/app.php` and register the required service provider.
 ```
 
 ##### Step 3: Register your option scheme
+
 > {tip} You can add your option scheme to `functions.php`
+
 > {tip} For each scheme you added it create new section in Theme Configuration page.
 
 
