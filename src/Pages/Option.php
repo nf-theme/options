@@ -4,7 +4,7 @@ namespace NightFury\Option\Pages;
 
 use NF\Facades\App;
 use NF\Facades\Request;
-use NF\View\Facades\View;
+use NF\Facades\Storage;
 use NightFury\Option\Abstracts\AdminPage;
 use NightFury\Option\Manager;
 
@@ -26,6 +26,10 @@ class Option extends AdminPage
             $should_flash = true;
             delete_option(Manager::NTO_SAVED_SUCCESSED);
         }
-        echo View::render('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash'));
+        if (Storage::has('resources/views/vendor/option/admin.blade.php')) {
+            echo \NF\View\Facades\View::render('vendor.option.admin', compact('manager', 'pages', 'current_page', 'should_flash'));
+        } else {
+            echo \NightFury\Option\Facades\View::render('admin', compact('manager', 'pages', 'current_page', 'should_flash'));
+        }
     }
 }
