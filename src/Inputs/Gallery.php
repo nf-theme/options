@@ -60,7 +60,7 @@ class Gallery extends Input
             $this->items = new Collection(json_decode($value, true));
         }
         $html = <<<EOF
-<div class="card nto-gallery" id="nto-image-{$this->name}" style="width: 20rem;">
+<div class="card nto-gallery" id="nto-image-{$this->name}">
     <input type="hidden" name="{$this->name}" value="" required>
     {$this->renderGallery()}
     <div class="card-body">
