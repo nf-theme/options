@@ -3,6 +3,7 @@
 namespace NightFury\Option;
 
 use Illuminate\Support\ServiceProvider;
+use NightFury\Option\Console\PublishCommand;
 use NightFury\Option\Facades\ThemeOptionManager;
 use NightFury\Option\Manager;
 use NightFury\Option\Pages\Option;
@@ -19,6 +20,13 @@ class ThemeOptionServiceProvider extends ServiceProvider
             $this->registerAdminMenu();
             $this->registerAdminPostAction();
         }
+    }
+
+    public function registerCommand()
+    {
+        return [
+            PublishCommand::class,
+        ];
     }
 
     public function registerAdminMenu()
