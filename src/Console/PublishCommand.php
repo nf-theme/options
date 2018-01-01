@@ -29,5 +29,6 @@ class PublishCommand extends Command
         if (!file_exists('resources/views/vendor/option/admin.blade.php')) {
             copy('vendor/nf/option/resources/views/admin.blade.php', 'resources/views/vendor/option/admin.blade.php');
         }
+        $output->write("<info>resources/views/vendor/option/admin.blade.php</info>", true);
     }
 }
