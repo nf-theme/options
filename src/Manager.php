@@ -11,6 +11,7 @@ use NightFury\Option\Inputs\Gallery;
 use NightFury\Option\Inputs\Image;
 use NightFury\Option\Inputs\Select;
 use NightFury\Option\Inputs\Text;
+use NightFury\Option\Inputs\Textarea;
 
 class Manager
 {
@@ -28,6 +29,13 @@ class Manager
             switch ($field['type']) {
                 case Input::TEXT:
                     $input              = new Text();
+                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                    break;
+                case Input::TEXTAREA:
+                    $input              = new Textarea();
                     $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                     $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                     $input->description = isset($field['description']) ? $field['description'] : $input->description;

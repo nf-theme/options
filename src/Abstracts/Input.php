@@ -11,6 +11,7 @@ abstract class Input implements InputInterface
     const SELECT  = 'select';
     const IMAGE   = 'image';
     const GALLERY = 'gallery';
+    const TEXTAREA = 'textarea';
     /**
      * Input type
      *
