@@ -53,7 +53,6 @@ class Manager
                     $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                     $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                     $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->options     = isset($field['options']) ? $field['options'] : $input->options;
                     $input->required    = isset($field['required']) ? $field['required'] : $input->required;
                     break;
                 case Input::GALLERY:
@@ -61,7 +60,6 @@ class Manager
                     $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                     $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                     $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->options     = isset($field['options']) ? $field['options'] : $input->options;
                     $input->required    = isset($field['required']) ? $field['required'] : $input->required;
                     break;
 
@@ -130,6 +128,38 @@ class Manager
         } else {
             return str_slug($this->getPages()->first()->name) === str_slug($name);
         }
+    }
+
+    /**
+     * Save data from request
+     *
+     * @return void
+     */
+    public function save()
+    {
+        $k = $this->getPages()->search(function ($item) {
+            return $item->name == Request::get('page');
+        });
+        if ($k === false) {
+            throw new \Exception("Request invalid", 1);
+        }
+
+        $page = $this->getPage(Request::get('page'));
+
+        foreach ($page->fields as $field) {
+            if (Request::has($field->name) && Request::get($field->name) != '') {
+                if ($field->is(Input::GALLERY)) {
+                    $items = json_decode(stripslashes(Request::get($field->name)), true);
+                    $field->setItems(new Collection($items));
+                } else {
+                    $field->value = Request::get($field->name);
+                }
+                $field->save();
+            }
+        }
+        update_option(Manager::NTO_SAVED_SUCCESSED, 'should_flash', false);
+        $redirect_url = $this->getTabUrl(Request::get('page'));
+        wp_redirect($redirect_url);
     }
 
 }
