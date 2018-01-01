@@ -43,6 +43,7 @@ class Image extends Input
         <h4 class="card-title">{$this->label}</h4>
         <p class="card-text">{$this->description}</p>
         <a href="#" class="nto-image-upload-btn btn btn-primary" data-input="{$this->name}">Select File</a>
+        <a href="#" class="nto-image-remove btn btn-secondary" data-input="{$this->name}">Delete file</a>
     </div>
 </div>
 

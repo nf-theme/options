@@ -69,6 +69,11 @@ abstract class Input implements InputInterface
         return update_option($this->name, $this->getValue());
     }
 
+    public function remove()
+    {
+        return delete_option($this->name);
+    }
+
     /**
      * @return string
      */

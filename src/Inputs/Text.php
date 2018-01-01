@@ -34,12 +34,21 @@ class Text extends Input
     public function render()
     {
         $value = get_option($this->name, '');
-        $html  = <<<EOF
+        if ($this->required) {
+            $html = <<<EOF
+<div class="form-group {$this->name}">
+    <label>{$this->label}</label>
+    <input type="text" class="form-control" name="{$this->name}" value="{$value}" required>
+</div>
+EOF;
+        } else {
+            $html = <<<EOF
 <div class="form-group {$this->name}">
     <label>{$this->label}</label>
     <input type="text" class="form-control" name="{$this->name}" value="{$value}">
 </div>
 EOF;
+        }
         return $html;
     }
 }

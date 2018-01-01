@@ -147,19 +147,49 @@ class Manager
         $page = $this->getPage(Request::get('page'));
 
         foreach ($page->fields as $field) {
-            if (Request::has($field->name) && Request::get($field->name) != '') {
-                if ($field->is(Input::GALLERY)) {
-                    $items = json_decode(stripslashes(Request::get($field->name)), true);
-                    $field->setItems(new Collection($items));
-                } else {
+            switch ($field->type) {
+                case Input::GALLERY:
+                    if (Request::get($field->name) != '') {
+                        $items = json_decode(stripslashes(Request::get($field->name)), true);
+                        $field->setItems(new Collection($items));
+                        $field->save();
+                    }
+                    break;
+
+                default:
                     $field->value = Request::get($field->name);
-                }
-                $field->save();
+                    $field->save();
+                    break;
             }
         }
         update_option(Manager::NTO_SAVED_SUCCESSED, 'should_flash', false);
         $redirect_url = $this->getTabUrl(Request::get('page'));
         wp_redirect($redirect_url);
+    }
+
+    /**
+     * Remove value of an option
+     *
+     * @return void
+     */
+    public function remove()
+    {
+        $k = $this->getPages()->search(function ($item) {
+            return str_slug($item->name) == str_slug(Request::get('page'));
+        });
+        if ($k === false) {
+            throw new \Exception("Request invalid", 1);
+        }
+
+        $page = $this->getPage(Request::get('page'));
+
+        foreach ($page->fields as $field) {
+            if ($field->name == Request::get('field')) {
+                $field->remove();
+            }
+        }
+        $redirect_url = $this->getTabUrl(Request::get('page'));
+        wp_send_json(['success' => true, 'redirect_url' => $redirect_url]);
     }
 
 }

@@ -2,10 +2,7 @@
 
 namespace NightFury\Option;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
-use NF\Facades\Request;
-use NightFury\Option\Abstracts\Input;
 use NightFury\Option\Facades\ThemeOptionManager;
 use NightFury\Option\Manager;
 use NightFury\Option\Pages\Option;
@@ -39,12 +36,12 @@ class ThemeOptionServiceProvider extends ServiceProvider
         add_action('admin_enqueue_scripts', function () {
             wp_enqueue_style(
                 'template-style',
-                asset('app.css'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.css'),
                 false
             );
             wp_enqueue_script(
                 'template-scripts',
-                asset('app.js'),
+                wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.js'),
                 'jquery',
                 '1.0',
                 true
@@ -52,5 +49,6 @@ class ThemeOptionServiceProvider extends ServiceProvider
 
         });
         add_action('admin_post_nto_save', [ThemeOptionManager::class, 'save']);
+        add_action('wp_ajax_nto_remove', [ThemeOptionManager::class, 'remove']);
     }
 }
