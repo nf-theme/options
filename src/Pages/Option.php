@@ -18,8 +18,11 @@ class Option extends AdminPage
 
     public function render()
     {
-        $manager      = App::make('ThemeOption');
-        $pages        = $manager->getPages();
+        $manager = App::make('ThemeOption');
+        $pages   = $manager->getPages();
+        if (!isset($pages)) {
+            throw new \Exception("Please register your option scheme", 1);
+        }
         $current_page = $manager->getPage(Request::get('tab'));
         $should_flash = false;
         if (get_option(Manager::NTO_SAVED_SUCCESSED) !== false) {
