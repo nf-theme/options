@@ -7,6 +7,7 @@ use NF\Facades\Request;
 use NightFury\Option\Abstracts\Input;
 use NightFury\Option\Abstracts\Page;
 use NightFury\Option\Inputs\Email;
+use NightFury\Option\Inputs\Gallery;
 use NightFury\Option\Inputs\Image;
 use NightFury\Option\Inputs\Select;
 use NightFury\Option\Inputs\Text;
@@ -49,6 +50,14 @@ class Manager
                     break;
                 case Input::IMAGE:
                     $input              = new Image();
+                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                    $input->options     = isset($field['options']) ? $field['options'] : $input->options;
+                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                    break;
+                case Input::GALLERY:
+                    $input              = new Gallery();
                     $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                     $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                     $input->description = isset($field['description']) ? $field['description'] : $input->description;

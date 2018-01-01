@@ -6,10 +6,11 @@ use NightFury\Option\Constracts\InputInterface;
 
 abstract class Input implements InputInterface
 {
-    const TEXT   = 'text';
-    const EMAIL  = 'email';
-    const SELECT = 'select';
-    const IMAGE  = 'image';
+    const TEXT    = 'text';
+    const EMAIL   = 'email';
+    const SELECT  = 'select';
+    const IMAGE   = 'image';
+    const GALLERY = 'gallery';
     /**
      * Input type
      *
@@ -32,6 +33,13 @@ abstract class Input implements InputInterface
     public $name = '';
 
     /**
+     * Input value
+     *
+     * @var string
+     */
+    public $value = '';
+
+    /**
      * Input description
      *
      * @var string
@@ -45,4 +53,27 @@ abstract class Input implements InputInterface
      */
     public $required = false;
 
+    /**
+     * Determine the type of input
+     *
+     * @var string
+     * @return boolean
+     */
+    public function is($type)
+    {
+        return $this->type == $type;
+    }
+
+    public function save()
+    {
+        return update_option($this->name, $this->getValue());
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace NightFury\Option;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use NF\Facades\Request;
 use NightFury\Option\Abstracts\Input;
@@ -36,12 +37,17 @@ class ThemeOptionServiceProvider extends ServiceProvider
                     'type'  => Input::EMAIL,
                 ],
                 [
+                    'label'       => 'Gallery',
+                    'name'        => 'theme_option_gallery',
+                    'type'        => Input::GALLERY,
+                    'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+                ], [
                     'label'       => 'Image',
                     'name'        => 'theme_option_image',
                     'type'        => Input::IMAGE,
                     'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
                 ],
-                 [
+                [
                     'label'       => '2nd Image',
                     'name'        => 'theme_option_image_2nd',
                     'type'        => Input::IMAGE,
@@ -136,7 +142,6 @@ class ThemeOptionServiceProvider extends ServiceProvider
 
     public function save()
     {
-
         $k = ThemeOptionManager::getPages()->search(function ($item) {
             return $item->name == Request::get('page');
         });
@@ -148,7 +153,13 @@ class ThemeOptionServiceProvider extends ServiceProvider
 
         foreach ($page->fields as $field) {
             if (Request::has($field->name) && Request::get($field->name) != '') {
-                update_option($field->name, Request::get($field->name), true);
+                if ($field->is(Input::GALLERY)) {
+                    $items = json_decode(stripslashes(Request::get($field->name)), true);
+                    $field->setItems(new Collection($items));
+                } else {
+                    $field->value = Request::get($field->name);
+                }
+                $field->save();
             }
         }
         update_option(Manager::NTO_SAVED_SUCCESSED, 'should_flash', false);

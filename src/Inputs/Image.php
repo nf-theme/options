@@ -35,7 +35,7 @@ class Image extends Input
     {
         $value = get_option($this->name, get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png');
         $html  = <<<EOF
-<div class="card" id="nto-image-{$this->name}" style="width: 20rem;">
+<div class="card nto-image" id="nto-image-{$this->name}" style="width: 20rem;">
     <input type="hidden" name="{$this->name}" value="{$value}" required>
     <img class="card-img-top" src="{$value}" alt="{$this->name}">
     <div class="card-body">
