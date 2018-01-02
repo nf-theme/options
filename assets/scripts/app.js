@@ -1,4 +1,5 @@
 import Sortable from 'sortablejs';
+import 'bootstrap';
 
 (function($) {
     let IMAGE_UPLOAD_BTN_CLASSNAME = 'nto-image-upload-btn';
@@ -51,11 +52,52 @@ import Sortable from 'sortablejs';
                 img.className = 'nto-gallery-item';
                 img.innerHTML = `<img src="${defaultImg}" style="background-image: url('${attachment.url}')" data-src="${attachment.url}">`;
                 input.parent().parent().find('.nto-items').append(img);
-                input.parent().parent().find('input').val(JSON.stringify(items));
+                input.parent().parent().find('.input-value').val(JSON.stringify(items));
             });
         });
         uploader.open();
         return false;
+    });
+
+    $(document).on('click', `.meta-data`, function() {
+        let target = $(event.target);
+        let el = target.parent().parent().parent().parent().find('.meta-data-modal');
+        el.modal('show');
+        el.on('shown.bs.modal', function() {
+            let url = target.prev().attr('data-src');
+            el.attr('data-url', url);
+            let value = JSON.parse(target.parent().parent().parent().find('.input-value').val());
+            if (value !== undefined) {
+                let item = value.find(i => i.url == url);
+                el.find('.meta').val('');
+                if (item.meta !== undefined) {
+                    for (let k in item.meta) {
+                        el.find(`[name="${k}"]`).val(item.meta[k]);
+                    }
+                }
+            }
+        });
+    });
+
+    $(document).on('click', `.nto-save-meta`, function() {
+        let target = $(event.target);
+        let el = target.parent().parent().parent().parent();
+        let url = el.attr('data-url');
+        let value = JSON.parse(el.parent().find('.input-value').val());
+        if (value !== undefined) {
+            let item = value.find(i => i.url == url);
+            if (item !== undefined) {
+                el.find('.meta').each(function(k, i) {
+                    if (item.meta === undefined) {
+                        item.meta = {};
+                    }
+                    item.meta[$(i).attr('name')] = $(i).val();
+                });
+            }
+        }
+        el.parent().find('.input-value').val(JSON.stringify(value));
+        el.modal('hide');
+
     });
 
     $(document).on('click', `.${IMAGE_REMOVE_ITEM_CLASSNAME}`, remove);

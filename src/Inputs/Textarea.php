@@ -38,17 +38,28 @@ class Textarea extends Input
             $html = <<<EOF
 <div class="form-group {$this->name}">
     <label>{$this->label}</label>
-    <textarea class="form-control" name="{$this->name}">{$value}</textarea>
+    <textarea class="form-control" name="{$this->name}" required>{$value}</textarea>
 </div>
 EOF;
         } else {
             $html = <<<EOF
 <div class="form-group {$this->name}">
     <label>{$this->label}</label>
-    <input class="form-control" name="{$this->name}">{$value}</textarea>
+    <textarea class="form-control" name="{$this->name}">{$value}</textarea>
 </div>
 EOF;
         }
+        return $html;
+    }
+
+    public function renderMetaField()
+    {
+        $html = <<<EOF
+<div class="form-group {$this->name}">
+    <label>{$this->label}</label>
+    <textarea class="form-control meta" name="{$this->name}"></textarea>
+</div>
+EOF;
         return $html;
     }
 }

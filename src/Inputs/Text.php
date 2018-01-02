@@ -51,4 +51,15 @@ EOF;
         }
         return $html;
     }
+
+    public function renderMetaField()
+    {
+        $html = <<<EOF
+<div class="form-group {$this->name}">
+    <label>{$this->label}</label>
+    <input type="text" class="form-control meta" name="{$this->name}">
+</div>
+EOF;
+        return $html;
+    }
 }

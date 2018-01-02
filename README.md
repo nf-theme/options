@@ -33,7 +33,7 @@ ThemeOptionManager::add([
     'fields' => [
         [
             'label'    => 'Text',
-            'name'     => 'theme_option_text', // the key of option 
+            'name'     => 'theme_option_text', // the key of option
             'type'     => Input::TEXT,
             'required' => true,
         ],
@@ -53,12 +53,30 @@ ThemeOptionManager::add([
             'label'       => 'Gallery',
             'name'        => 'theme_option_gallery',
             'type'        => Input::GALLERY,
-            'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+            'description' => 'We can select multi file. Drag and Drop to re-order content'
+        ],
+        [
+            'label'       => 'Gallery With Meta Field',
+            'name'        => 'theme_option_gallery_with_meta',
+            'type'        => Input::GALLERY,
+            'description' => 'Gallery with meta field, for now we support text and textarea on meta field.',
+            'meta'        => [
+                [
+                    'label' => 'Text',
+                    'name'  => 'meta_text',
+                    'type'  => Input::TEXT,
+                ],
+                [
+                    'label' => 'Textarea',
+                    'name'  => 'meta_textarea',
+                    'type'  => Input::TEXTAREA,
+                ],
+            ],
         ], [
             'label'       => 'Image',
             'name'        => 'theme_option_image',
             'type'        => Input::IMAGE,
-            'description' => 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+            'description' => 'Choose your image by clicking the button bellow',
         ],
         [
             'label'   => 'Select',
@@ -79,6 +97,7 @@ ThemeOptionManager::add([
         ],
     ],
 ]);
+
 
 ```
 

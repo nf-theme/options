@@ -37,7 +37,7 @@ class Image extends Input
         $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';
         $html        = <<<EOF
 <div class="card nto-image" id="nto-image-{$this->name}">
-    <input type="hidden" name="{$this->name}" value="{$value}" required>
+    <input type="hidden" class="input-value" name="{$this->name}" value="{$value}" required>
     <img class="card-img-top" src="{$default_img}" style="background-image: url('{$value}')" data-src="{$value}" alt="{$this->name}">
     <div class="card-body">
         <h4 class="card-title">{$this->label}</h4>

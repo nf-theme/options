@@ -25,57 +25,16 @@ class Manager
         $page = new Page();
         $page->setName($data['name']);
         $fields = new Collection();
-        foreach ($data['fields'] as $field) {
-            switch ($field['type']) {
-                case Input::TEXT:
-                    $input              = new Text();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-                case Input::TEXTAREA:
-                    $input              = new Textarea();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-                case Input::EMAIL:
-                    $input              = new Email();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-                case Input::SELECT:
-                    $input              = new Select();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->options     = isset($field['options']) ? $field['options'] : $input->options;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-                case Input::IMAGE:
-                    $input              = new Image();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-                case Input::GALLERY:
-                    $input              = new Gallery();
-                    $input->label       = isset($field['label']) ? $field['label'] : $input->label;
-                    $input->name        = isset($field['name']) ? $field['name'] : $input->name;
-                    $input->description = isset($field['description']) ? $field['description'] : $input->description;
-                    $input->required    = isset($field['required']) ? $field['required'] : $input->required;
-                    break;
-
-                default:
-                    # code...
-                    break;
+        foreach ($data['fields'] as $data) {
+            $field = $this->prase($data);
+            if ($field->is(Input::GALLERY) && isset($data['meta']) && is_array($data['meta'])) {
+                $field->enable_meta = true;
+                foreach ($data['meta'] as $meta_field_data) {
+                    $meta_field = $this->prase($meta_field_data);
+                    $field->addMetaField($meta_field);
+                }
             }
-            $fields->push($input);
+            $fields->push($field);
         }
         $page->setFields($fields);
         if ($this->pages == null) {
@@ -83,6 +42,59 @@ class Manager
         } else {
             $this->pages->push($page);
         }
+    }
+
+    private function prase($field)
+    {
+        switch ($field['type']) {
+            case Input::TEXT:
+                $input              = new Text();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::TEXTAREA:
+                $input              = new Textarea();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::EMAIL:
+                $input              = new Email();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::SELECT:
+                $input              = new Select();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->options     = isset($field['options']) ? $field['options'] : $input->options;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::IMAGE:
+                $input              = new Image();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::GALLERY:
+                $input              = new Gallery();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            default:
+                throw new \Exception("Can not prase input field", 1);
+                break;
+        }
+        return $input;
     }
 
     public function getTabUrl($name)

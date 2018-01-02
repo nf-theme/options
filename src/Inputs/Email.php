@@ -37,7 +37,18 @@ class Email extends Input
         $html  = <<<EOF
 <div class="form-group {$this->name}">
     <label>{$this->label}</label>
-    <input type="email" class="form-control" name="{$this->name}" value="{$value}">
+    <input type="email" class="form-control input-value" name="{$this->name}" value="{$value}">
+</div>
+EOF;
+        return $html;
+    }
+
+    public function renderMetaField()
+    {
+        $html = <<<EOF
+<div class="form-group {$this->name}">
+    <label>{$this->label}</label>
+    <input type="email" class="form-control" name="{$this->name}">
 </div>
 EOF;
         return $html;
