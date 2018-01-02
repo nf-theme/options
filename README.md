@@ -1,12 +1,24 @@
 # The option plugin
  > It's an extension for our theme https://github.com/hieu-pv/nf-theme 
  
-#### Installation
-##### Step 1: Install Through Composer
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Option Scheme](#scheme)
+- [Translation](#translation)
+
+ 
+<a name="installation"></a>
+## Installation
+
+### Step 1: Install Through Composer
 ```
 composer require nf/option
 ```
-##### Step 2: Add the Service Provider
+
+<a name="configuration"></a>
+
+### Step 2: Add the Service Provider
+
 Open `config/app.php` and register the required service provider.
 
 ```php
@@ -16,12 +28,15 @@ Open `config/app.php` and register the required service provider.
     ],
 ```
 
-##### Step 3: Register your option scheme
+<a name="scheme"></a>
+
+### Step 3: Register your option scheme
 
 > {tip} You can add your option scheme to `functions.php`
 
-> {tip} For each scheme you added it create new section in Theme Configuration page.
+> For each scheme you added it create new section in Theme Configuration page.
 
+All supported type can be found here [https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs](https://github.com/hieu-pv/nf-theme-option/tree/master/src/Inputs)
 
 ```php
 
@@ -39,7 +54,7 @@ ThemeOptionManager::add([
         ],
         [
             'label'    => 'Textarea',
-            'name'     => 'theme_option_text',
+            'name'     => 'theme_option_textarea',
             'type'     => Input::TEXTAREA,
             'required' => true,
         ],
@@ -101,7 +116,7 @@ ThemeOptionManager::add([
 
 ```
 
-##### Step 4: Get your option value
+### Step 4: Get your option value
 
 we can get the value of option as usually via `get_option` function
 
@@ -111,3 +126,15 @@ we can get the value of option as usually via `get_option` function
 get_option('{option_name}');
 
 ```
+
+<a name="translation"></a>
+
+## Translation
+
+if you want to customize configuration page
+
+```
+php command nfoption:publish
+```
+
+It will create new file `resources/views/vendor/option/admin.blade.php` in your theme then you can update content of the configuration page
