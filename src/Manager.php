@@ -192,7 +192,6 @@ class Manager
                         $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
 
                         if ( $movefile && ! isset( $movefile['error'] ) ) {
-                            Log::info($movefile);
                             $field->value = $movefile['url'];
                             $field->save();
                         } else {
@@ -234,9 +233,5 @@ class Manager
         }
         $redirect_url = $this->getTabUrl(Request::get('page'));
         wp_send_json(['success' => true, 'redirect_url' => $redirect_url]);
-    }
-
-    public function uploadF() {
-        
     }
 }

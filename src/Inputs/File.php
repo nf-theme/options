@@ -48,7 +48,7 @@ class File extends Input
             <p>{$value}</p>
         </div>
         <p class="card-text">{$this->description}</p>
-        <input type="file" class="input-value btn btn-primary" name="{$this->name}" required>
+        <input type="file" class="input-value btn btn-primary" name="{$this->name}">
         <a href="#" class="nto-file-remove btn btn-secondary" data-input="{$this->name}">Delete file</a>
     </div>
 </div>
