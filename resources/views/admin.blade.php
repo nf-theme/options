@@ -16,7 +16,7 @@
     </div>
     <div class="nto-content">
         <div class="nto-form">
-            <form method="POST" name="nto_form" action="{{admin_url('admin-post.php')}}">
+            <form method="POST" enctype="multipart/form-data" name="nto_form" action="{{admin_url('admin-post.php')}}">
             	<input type="hidden" value="nto_save" name="action" required>
             	<input type="hidden" value="{{$current_page->name}}" name="page" required>
                 @foreach($current_page->fields as $field)

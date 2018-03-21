@@ -6,12 +6,13 @@ use NightFury\Option\Constracts\InputInterface;
 
 abstract class Input implements InputInterface
 {
-    const TEXT    = 'text';
-    const EMAIL   = 'email';
-    const SELECT  = 'select';
-    const IMAGE   = 'image';
-    const GALLERY = 'gallery';
+    const TEXT     = 'text';
+    const EMAIL    = 'email';
+    const SELECT   = 'select';
+    const IMAGE    = 'image';
+    const GALLERY  = 'gallery';
     const TEXTAREA = 'textarea';
+    const FILE     = 'file';
     /**
      * Input type
      *
