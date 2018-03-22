@@ -2,11 +2,14 @@
 
 namespace NightFury\Option;
 
+use Illuminate\Http\Request as OriginRequest;
 use Illuminate\Support\Collection;
+use NF\Facades\Log;
 use NF\Facades\Request;
 use NightFury\Option\Abstracts\Input;
 use NightFury\Option\Abstracts\Page;
 use NightFury\Option\Inputs\Email;
+use NightFury\Option\Inputs\File;
 use NightFury\Option\Inputs\Gallery;
 use NightFury\Option\Inputs\Image;
 use NightFury\Option\Inputs\Select;
@@ -85,6 +88,13 @@ class Manager
                 break;
             case Input::GALLERY:
                 $input              = new Gallery();
+                $input->label       = isset($field['label']) ? $field['label'] : $input->label;
+                $input->name        = isset($field['name']) ? $field['name'] : $input->name;
+                $input->description = isset($field['description']) ? $field['description'] : $input->description;
+                $input->required    = isset($field['required']) ? $field['required'] : $input->required;
+                break;
+            case Input::FILE:
+                $input              = new File();
                 $input->label       = isset($field['label']) ? $field['label'] : $input->label;
                 $input->name        = isset($field['name']) ? $field['name'] : $input->name;
                 $input->description = isset($field['description']) ? $field['description'] : $input->description;
@@ -175,7 +185,20 @@ class Manager
                         $field->save();
                     }
                     break;
+                case Input::FILE:
+                    if(!empty($_FILES[$field->name])) {
+                        $uploadedfile = $_FILES[$field->name];
+                        $upload_overrides = array( 'test_form' => false );
+                        $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
 
+                        if ( $movefile && ! isset( $movefile['error'] ) ) {
+                            $field->value = $movefile['url'];
+                            $field->save();
+                        } else {
+                            Log::info($movefile['error']);
+                        }
+                    }
+                    break; 
                 default:
                     $field->value = Request::get($field->name);
                     $field->save();
@@ -211,5 +234,4 @@ class Manager
         $redirect_url = $this->getTabUrl(Request::get('page'));
         wp_send_json(['success' => true, 'redirect_url' => $redirect_url]);
     }
-
 }
