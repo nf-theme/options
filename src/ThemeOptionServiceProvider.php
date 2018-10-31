@@ -43,13 +43,13 @@ class ThemeOptionServiceProvider extends ServiceProvider
         if ($this->app->app_config['is_plugin'] === true) {
             add_action('admin_enqueue_scripts', function () {
                 wp_enqueue_style(
-                    'template-style',
-                    wp_slash($this->app->appPath() . '/vendor/nf/option/assets/dist/app.css'),
+                    $this->app->app_config['plugin_name'].'plugin-style',
+                    wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/dist/app.css'),
                     false
                 );
                 wp_enqueue_script(
-                    'template-scripts',
-                    wp_slash($this->app->appPath() . '/vendor/nf/option/assets/dist/app.js'),
+                    $this->app->app_config['plugin_name'].'plugin-scripts',
+                    wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/dist/app.js'),
                     'jquery',
                     '1.0',
                     true
