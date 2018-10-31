@@ -72,7 +72,6 @@ class Gallery extends Input
         } else {
             $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
         }
-        var_dump($default_value);die();
         $value = get_option($this->name, default_value);
         if ($value === false) {
             $this->items = new Collection();
