@@ -33,7 +33,12 @@ class Image extends Input
 
     public function render()
     {
-        $value       = get_option($this->name, get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png');
+        if ($this->app->app_config['is_plugin'] === true) {
+            $default_value = wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/images/img-default.png');
+        } else {
+            $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
+        }
+        $value       = get_option($this->name, $default_value);
         $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';
         $html        = <<<EOF
 <div class="card nto-image" id="nto-image-{$this->name}">
