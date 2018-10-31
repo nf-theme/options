@@ -38,9 +38,13 @@ class Image extends Input
         } else {
             $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
         }
-        $value       = get_option($this->name, $default_value);
-        $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';
-        $html        = <<<EOF
+        $value = get_option($this->name, $default_value);
+        if ($this->app_config['is_plugin'] === true) {
+            $default_img = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'assets/images/3x4.png');
+        } else {
+            $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';
+        }
+        $html = <<<EOF
 <div class="card nto-image" id="nto-image-{$this->name}">
     <input type="hidden" class="input-value" name="{$this->name}" value="{$value}" required>
     <img class="card-img-top" src="{$default_img}" style="background-image: url('{$value}')" data-src="{$value}" alt="{$this->name}">
