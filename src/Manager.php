@@ -22,7 +22,7 @@ class Manager
 
     public $pages;
 
-    public function __constructor($app)
+    public function __construct($app)
     {
         $this->app = $app;
     }

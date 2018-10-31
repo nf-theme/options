@@ -68,10 +68,11 @@ class Gallery extends Input
     public function render()
     {
         if ($this->app_config['is_plugin'] === true) {
-            $default_value = wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/images/img-default.png');
+            $default_value = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'assets/images/img-default.png');
         } else {
             $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
         }
+        var_dump($default_value);die();
         $value = get_option($this->name, default_value);
         if ($value === false) {
             $this->items = new Collection();
@@ -127,7 +128,7 @@ EOF;
     private function renderGallery()
     {
         if ($this->app_config['is_plugin'] === true) {
-            $default_img = wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/images/3x4.png');
+            $default_img = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'assets/images/3x4.png');
         } else {
             $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';
         }
