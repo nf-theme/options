@@ -2,7 +2,6 @@
 
 namespace NightFury\Option;
 
-use Illuminate\Http\Request as OriginRequest;
 use Illuminate\Support\Collection;
 use NF\Facades\Log;
 use NF\Facades\Request;
@@ -22,6 +21,11 @@ class Manager
     const NTO_SAVED_SUCCESSED = 'nto_saved_successed';
 
     public $pages;
+
+    public function __constructor($app)
+    {
+        $this->app = $app;
+    }
 
     public function add($data)
     {
@@ -104,6 +108,7 @@ class Manager
                 throw new \Exception("Can not prase input field", 1);
                 break;
         }
+        $input->setAppConfig($this->app->app_config);
         return $input;
     }
 
@@ -186,19 +191,19 @@ class Manager
                     }
                     break;
                 case Input::FILE:
-                    if(!empty($_FILES[$field->name])) {
-                        $uploadedfile = $_FILES[$field->name];
-                        $upload_overrides = array( 'test_form' => false );
-                        $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
+                    if (!empty($_FILES[$field->name])) {
+                        $uploadedfile     = $_FILES[$field->name];
+                        $upload_overrides = array('test_form' => false);
+                        $movefile         = wp_handle_upload($uploadedfile, $upload_overrides);
 
-                        if ( $movefile && ! isset( $movefile['error'] ) ) {
+                        if ($movefile && !isset($movefile['error'])) {
                             $field->value = $movefile['url'];
                             $field->save();
                         } else {
                             Log::info($movefile['error']);
                         }
                     }
-                    break; 
+                    break;
                 default:
                     $field->value = Request::get($field->name);
                     $field->save();

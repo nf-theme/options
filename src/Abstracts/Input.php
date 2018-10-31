@@ -83,4 +83,15 @@ abstract class Input implements InputInterface
     {
         return $this->value;
     }
+
+    /**
+     * Set app configuration to input
+     *
+     * @var array
+     * @return void
+     */
+    public function setAppConfig($config = [])
+    {
+        $this->app_config = $config;
+    }
 }

@@ -67,7 +67,7 @@ class Gallery extends Input
 
     public function render()
     {
-        if ($this->app->app_config['is_plugin'] === true) {
+        if ($this->app_config['is_plugin'] === true) {
             $default_value = wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/images/img-default.png');
         } else {
             $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
@@ -126,7 +126,7 @@ EOF;
 
     private function renderGallery()
     {
-        if ($this->app->app_config['is_plugin'] === true) {
+        if ($this->app_config['is_plugin'] === true) {
             $default_img = wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/images/3x4.png');
         } else {
             $default_img = get_template_directory_uri() . '/vendor/nf/option/assets/images/3x4.png';

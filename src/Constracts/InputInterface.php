@@ -20,4 +20,12 @@ interface InputInterface
      * @return boolean
      */
     public function save();
+
+    /**
+     * Set app configuration to input
+     *
+     * @var array
+     * @return void
+     */
+    public function setAppConfig($config = []);
 }

@@ -13,7 +13,7 @@ class ThemeOptionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('ThemeOption', function ($app) {
-            return new Manager;
+            return new Manager($app);
         });
 
         if (is_admin()) {
@@ -43,12 +43,12 @@ class ThemeOptionServiceProvider extends ServiceProvider
         if ($this->app->app_config['is_plugin'] === true) {
             add_action('admin_enqueue_scripts', function () {
                 wp_enqueue_style(
-                    $this->app->app_config['plugin_name'].'plugin-style',
+                    $this->app->app_config['plugin_name'] . 'plugin-style',
                     wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/dist/app.css'),
                     false
                 );
                 wp_enqueue_script(
-                    $this->app->app_config['plugin_name'].'plugin-scripts',
+                    $this->app->app_config['plugin_name'] . 'plugin-scripts',
                     wp_slash(plugin_dir_url(dirname(__FILE__)) . 'assets/dist/app.js'),
                     'jquery',
                     '1.0',
