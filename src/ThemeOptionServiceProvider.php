@@ -40,22 +40,39 @@ class ThemeOptionServiceProvider extends ServiceProvider
         add_action('admin_enqueue_scripts', function () {
             wp_enqueue_media();
         });
+        if ($this->app->app_config['is_plugin'] === true) {
+            add_action('admin_enqueue_scripts', function () {
+                wp_enqueue_style(
+                    'template-style',
+                    wp_slash($this->app->appPath() . '/vendor/nf/option/assets/dist/app.css'),
+                    false
+                );
+                wp_enqueue_script(
+                    'template-scripts',
+                    wp_slash($this->app->appPath() . '/vendor/nf/option/assets/dist/app.js'),
+                    'jquery',
+                    '1.0',
+                    true
+                );
 
-        add_action('admin_enqueue_scripts', function () {
-            wp_enqueue_style(
-                'template-style',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.css'),
-                false
-            );
-            wp_enqueue_script(
-                'template-scripts',
-                wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.js'),
-                'jquery',
-                '1.0',
-                true
-            );
+            });
+        } else {
+            add_action('admin_enqueue_scripts', function () {
+                wp_enqueue_style(
+                    'template-style',
+                    wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.css'),
+                    false
+                );
+                wp_enqueue_script(
+                    'template-scripts',
+                    wp_slash(get_stylesheet_directory_uri() . '/vendor/nf/option/assets/dist/app.js'),
+                    'jquery',
+                    '1.0',
+                    true
+                );
 
-        });
+            });
+        }
         add_action('admin_post_nto_save', [ThemeOptionManager::class, 'save']);
         add_action('wp_ajax_nto_remove', [ThemeOptionManager::class, 'remove']);
     }
