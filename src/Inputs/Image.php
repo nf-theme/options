@@ -33,7 +33,7 @@ class Image extends Input
 
     public function render()
     {
-        if ($this->app->app_config['is_plugin'] === true) {
+        if ($this->app_config['is_plugin'] === true) {
             $default_value = wp_slash(plugin_dir_url(dirname(dirname(__FILE__))) . 'assets/images/img-default.png');
         } else {
             $default_value = get_template_directory_uri() . '/vendor/nf/option/assets/images/img-default.png';
